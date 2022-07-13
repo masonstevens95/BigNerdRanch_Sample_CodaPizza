@@ -1,6 +1,5 @@
 package com.bignerdranch.android.codapizza.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.bignerdranch.android.codapizza.R
 import com.bignerdranch.android.codapizza.model.Pizza
 import com.bignerdranch.android.codapizza.model.Topping
-import com.bignerdranch.android.codapizza.model.ToppingPlacement
 import java.text.NumberFormat
 
 @Preview
@@ -55,23 +53,27 @@ private fun ToppingsList (
     pizza: Pizza,
     onEditPizza: (Pizza) -> Unit
 ){
+    var toppingBeingAdded by rememberSaveable { mutableStateOf<Topping?>(null)}
+
+    toppingBeingAdded?.let { topping ->
+        ToppingPlacementDialog(
+            topping = topping,
+            onSetToppingPlacement = {placement ->
+                onEditPizza(pizza.withTopping(topping, placement))
+            },
+            onDismissRequest = {
+                toppingBeingAdded = null
+            }
+        )
+    }
+
     LazyColumn(modifier = modifier){
         items(Topping.values()) { topping ->
             ToppingCell(
                 topping = topping,
                 placement = pizza.toppings[topping],
                 onClickTopping = {
-                    val isOnPizza = pizza.toppings[topping] != null
-                    onEditPizza(
-                        pizza.withTopping(
-                            topping = topping,
-                            placement = if(isOnPizza){
-                                null
-                            }else{
-                                ToppingPlacement.All
-                            }
-                        )
-                    )
+                    toppingBeingAdded = topping
                 }
             )
         }
