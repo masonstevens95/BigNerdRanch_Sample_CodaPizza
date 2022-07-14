@@ -5,7 +5,7 @@ import com.bignerdranch.android.codapizza.R
 
 enum class Topping (
     @StringRes val toppingName: Int
-        ){
+){
     Basil(
         toppingName = R.string.topping_basil
     ),

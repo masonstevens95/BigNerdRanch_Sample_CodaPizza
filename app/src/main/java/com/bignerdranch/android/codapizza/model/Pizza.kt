@@ -8,6 +8,11 @@ import kotlinx.parcelize.Parcelize
 data class Pizza (
     val toppings: Map<Topping, ToppingPlacement> = emptyMap()
 ) : Parcelable {
+
+    //size of the pizza, affecting price.
+
+
+
     val price: Double
         get() = 9.99 + toppings.asSequence()
             .sumOf { (_, toppingPlacement) ->
