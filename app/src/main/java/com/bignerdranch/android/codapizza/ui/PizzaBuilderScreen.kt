@@ -34,53 +34,12 @@ fun PizzaBuilderScreen(
 
     Column(modifier = modifier) {
 
-        //start of a custom dropdown for pizza sizes, adding to the price.
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .size(48.dp)
-//                .background(Color.Blue),
-//
-//        ){
-//            Text(
-//                style = MaterialTheme.typography.subtitle1,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(vertical = 4.dp, horizontal = 16.dp)
-//                    .clickable(onClick = { showDropdown = !showDropdown }),
-//                text = "Test",
-//            )
-//            DropdownMenu(
-//                expanded = showDropdown,
-//                onDismissRequest = { showDropdown = false }
-//            ) {
-//
-//                LazyColumn(modifier = Modifier) {
-//
-//                }
-//
-//                DropdownMenuItem(
-//                    modifier = Modifier
-//                        .fillMaxWidth(),
-////                        .weight(1f, fill = true),
-//                    onClick = { showDropdown = false }
-//                ) {
-//                    Text(
-//                        style = MaterialTheme.typography.subtitle2,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(vertical = 4.dp, horizontal = 16.dp)
-//                            ,
-//                        text = "Test item"
-//                    )
-//                }
-//            }
-//        }
-
         PizzaSizeDropdownList(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f, fill = true)
+                .weight(1f, fill = true),
+            pizza = pizza,
+            onEditPizza = {pizza = it}
         )
 
         ToppingsList(
@@ -102,7 +61,9 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun PizzaSizeDropdownList(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    pizza: Pizza,
+    onEditPizza: (Pizza) -> Unit
 ){
 //    Log.d("PizzaSizeDropdownList", "Called PizzaSizeDropdownList")
 
@@ -121,12 +82,14 @@ private fun PizzaSizeDropdownList(
     ){
 
         //sample text
+        val sizeStr = stringResource(pizza.size.pizzaSize)
+
         Text(
             style = MaterialTheme.typography.subtitle1,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp, horizontal = 16.dp),
-            text = "Pizza Sizes",
+            text = stringResource(R.string.dropdown, sizeStr),
         )
 
         //When dropdown is opened, show dropdown menu at max width.
@@ -143,7 +106,11 @@ private fun PizzaSizeDropdownList(
                 //separate component with lazylist and dropdown items
                 PizzaSizeDropdown(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    onSetPizzaSize = { size ->
+                       onEditPizza(pizza.pizzaSize(size))
+                    },
+                    onDismissRequest = {showDropdown = false}
                 )
             }
         }

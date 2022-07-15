@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">CodaPizza</string>
 
+    <string name="dropdown">Pizza Size: %1$s</string>
+
+    <string name="size_prompt">%1$s, (%2$s)</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
