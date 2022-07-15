@@ -1,15 +1,16 @@
 package com.bignerdranch.android.codapizza.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -29,7 +30,18 @@ fun PizzaBuilderScreen(
         mutableStateOf(Pizza())
     }
 
+
+
     Column(modifier = modifier) {
+
+        PizzaSizeDropdownList(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f, fill = true),
+            pizza = pizza,
+            onEditPizza = {pizza = it}
+        )
+
         ToppingsList(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,6 +56,67 @@ fun PizzaBuilderScreen(
                 .padding(16.dp),
             pizza = pizza
         )
+    }
+}
+
+@Composable
+private fun PizzaSizeDropdownList(
+    modifier: Modifier = Modifier,
+    pizza: Pizza,
+    onEditPizza: (Pizza) -> Unit
+){
+//    Log.d("PizzaSizeDropdownList", "Called PizzaSizeDropdownList")
+
+    var showDropdown by rememberSaveable {
+        mutableStateOf(false)
+
+    }
+
+    //Wrapper for dropdown menu
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(48.dp)
+            .background(Color.Blue)
+            .clickable(onClick = { showDropdown = !showDropdown }),
+    ){
+
+        //sample text
+        val sizeStr = stringResource(pizza.size.pizzaSize)
+
+        Text(
+            style = MaterialTheme.typography.subtitle1,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp, horizontal = 16.dp),
+            text = stringResource(R.string.dropdown, sizeStr),
+        )
+
+        //When dropdown is opened, show dropdown menu at max width.
+        if(showDropdown){
+//            Log.d("PizzaSizeDropdownList", "Called showDropdown")
+            DropdownMenu(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp, horizontal = 16.dp),
+                expanded = showDropdown,
+                onDismissRequest = { showDropdown = false }
+            ) {
+
+                //separate component with lazylist and dropdown items
+                PizzaSizeDropdown(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    onSetPizzaSize = { size ->
+                       onEditPizza(pizza.pizzaSize(size))
+                    },
+                    onDismissRequest = {showDropdown = false}
+                )
+            }
+        }
+
+
+
     }
 }
 

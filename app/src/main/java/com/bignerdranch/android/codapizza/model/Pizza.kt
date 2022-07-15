@@ -6,16 +6,24 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Pizza (
-    val toppings: Map<Topping, ToppingPlacement> = emptyMap()
+    val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
+    val size: Size = Size.Large
 ) : Parcelable {
+
     val price: Double
-        get() = 9.99 + toppings.asSequence()
+        get() = size.pizzaPrice + toppings.asSequence()
             .sumOf { (_, toppingPlacement) ->
                 when (toppingPlacement){
                     Left, Right -> 0.5
                     All -> 1.0
                 }
             }
+
+    fun pizzaSize(size: Size): Pizza{
+        return copy(
+            size = size
+        )
+    }
 
     fun withTopping(topping: Topping, placement: ToppingPlacement?): Pizza {
         return copy(
