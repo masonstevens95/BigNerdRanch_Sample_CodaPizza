@@ -1,5 +1,6 @@
 package com.bignerdranch.android.codapizza.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bignerdranch.android.codapizza.R
 import com.bignerdranch.android.codapizza.model.Pizza
-import com.bignerdranch.android.codapizza.model.Size
 import com.bignerdranch.android.codapizza.model.Topping
 import java.text.NumberFormat
 
@@ -31,26 +30,57 @@ fun PizzaBuilderScreen(
         mutableStateOf(Pizza())
     }
 
-    var onClickDropdown by rememberSaveable {
-        mutableStateOf(false)
 
-    }
 
     Column(modifier = modifier) {
+
         //start of a custom dropdown for pizza sizes, adding to the price.
-//        PizzaSizeDropdownMenu(
+//        Box(
 //            modifier = Modifier
 //                .fillMaxWidth()
-//                .weight(1f, fill = true)
+//                .size(48.dp)
+//                .background(Color.Blue),
 //
-//        )
+//        ){
+//            Text(
+//                style = MaterialTheme.typography.subtitle1,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(vertical = 4.dp, horizontal = 16.dp)
+//                    .clickable(onClick = { showDropdown = !showDropdown }),
+//                text = "Test",
+//            )
+//            DropdownMenu(
+//                expanded = showDropdown,
+//                onDismissRequest = { showDropdown = false }
+//            ) {
+//
+//                LazyColumn(modifier = Modifier) {
+//
+//                }
+//
+//                DropdownMenuItem(
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+////                        .weight(1f, fill = true),
+//                    onClick = { showDropdown = false }
+//                ) {
+//                    Text(
+//                        style = MaterialTheme.typography.subtitle2,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(vertical = 4.dp, horizontal = 16.dp)
+//                            ,
+//                        text = "Test item"
+//                    )
+//                }
+//            }
+//        }
 
-
-        PizzaSizeDropdown(
-            modifer = Modifier
+        PizzaSizeDropdownList(
+            modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f, fill = true),
-            showDropdown = showDropdown
+                .weight(1f, fill = true)
         )
 
         ToppingsList(
@@ -71,50 +101,55 @@ fun PizzaBuilderScreen(
 }
 
 @Composable
-private fun PizzaSizeDropdown(
-    modifer: Modifier = Modifier,
-    onClickDropdown: () -> Unit
+private fun PizzaSizeDropdownList(
+    modifier: Modifier = Modifier
 ){
+//    Log.d("PizzaSizeDropdownList", "Called PizzaSizeDropdownList")
+
+    var showDropdown by rememberSaveable {
+        mutableStateOf(false)
+
+    }
+
+    //Wrapper for dropdown menu
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .size(48.dp)
-            .background(Color.Blue),
+            .background(Color.Blue)
+            .clickable(onClick = { showDropdown = !showDropdown }),
+    ){
 
-        ){
+        //sample text
         Text(
             style = MaterialTheme.typography.subtitle1,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp, horizontal = 16.dp)
-                .clickable(onClick = { showDropdown = !showDropdown }),
-            text = "Test",
+                .padding(vertical = 4.dp, horizontal = 16.dp),
+            text = "Pizza Sizes",
         )
-        DropdownMenu(
-            expanded = showDropdown,
-            onDismissRequest = { showDropdown = false }
-        ) {
 
-            LazyColumn(modifier = Modifier) {
-
-            }
-
-            DropdownMenuItem(
+        //When dropdown is opened, show dropdown menu at max width.
+        if(showDropdown){
+//            Log.d("PizzaSizeDropdownList", "Called showDropdown")
+            DropdownMenu(
                 modifier = Modifier
-                    .fillMaxWidth(),
-//                        .weight(1f, fill = true),
-                onClick = { showDropdown = false }
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp, horizontal = 16.dp),
+                expanded = showDropdown,
+                onDismissRequest = { showDropdown = false }
             ) {
-                Text(
-                    style = MaterialTheme.typography.subtitle2,
+
+                //separate component with lazylist and dropdown items
+                PizzaSizeDropdown(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp, horizontal = 16.dp)
-                    ,
-                    text = "Test item"
                 )
             }
         }
+
+
+
     }
 }
 

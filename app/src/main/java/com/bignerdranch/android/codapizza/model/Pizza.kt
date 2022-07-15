@@ -31,4 +31,8 @@ data class Pizza (
             }
         )
     }
+
+//    fun sizePrice(size: Size): Pizza {
+//
+//    }
 }

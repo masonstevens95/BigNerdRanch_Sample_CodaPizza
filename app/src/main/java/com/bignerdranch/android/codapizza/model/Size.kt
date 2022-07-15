@@ -4,18 +4,18 @@ import androidx.annotation.StringRes
 import com.bignerdranch.android.codapizza.R
 
 enum class Size (
-    @StringRes val size: Int
+    @StringRes val pizzaSize: Int
 ){
     Small(
-        size = R.string.small
+        pizzaSize = R.string.small
     ),
     Medium(
-        size = R.string.medium
+        pizzaSize = R.string.medium
     ),
     Large(
-        size = R.string.large
+        pizzaSize = R.string.large
     ),
     ExtraLarge(
-        size = R.string.extra_large
+        pizzaSize = R.string.extra_large
     )
 }

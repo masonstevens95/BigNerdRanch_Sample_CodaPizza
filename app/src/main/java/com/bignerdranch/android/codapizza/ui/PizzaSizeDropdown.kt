@@ -1,51 +1,47 @@
 package com.bignerdranch.android.codapizza.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.DropdownMenu
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.bignerdranch.android.codapizza.model.Size
+import com.bignerdranch.android.codapizza.model.Size.*
 
+@Preview
+@Composable
+fun PizzaSizeDropdownPreview(){
+    PizzaSizeDropdown(
+        modifier = Modifier
+            .fillMaxWidth()
+//            .weight(1f, fill = true)
+    )
+}
 
 @Composable
 fun PizzaSizeDropdown(
-
+    modifier: Modifier
 ){
+    LazyColumn(modifier = Modifier.size(200.dp)){
+        items(Size.values()) { size ->
+            DropdownMenuItem(
+                onClick = { /*TODO*/ },
+                modifier
+            ) {
+                Text(
+                    text = stringResource(size.pizzaSize),
+                    style = MaterialTheme.typography.body1
+                )
+            }
 
-//    var expanded by rememberSaveable { mutableStateOf<Boolean>(false) }
-//    val items = Map<Size>()
-//    val disabledValue = "B"
-//    var selectedIndex by rememberSaveable { mutableStateOf(0) }
-//
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-////            .weight(1f, fill = true)
-//            .background(Color.Blue)
-//    ){
-//        DropdownMenu(
-//            expanded = true,
-//            onDismissRequest = { /*TODO*/ }) {
-//                items.forEachIndexed { index, s ->
-//                    DropdownMenuItem(onClick = {
-//                        selectedIndex = index
-//                        expanded = false
-//                    }) {
-//                        val disabledText = if (s == disabledValue) {
-//                            " (Disabled)"
-//                        } else {
-//                            ""
-//                        }
-//                        Text(text = s + disabledText)
-//                    }
-//        }
-//    }
+        }
+    }
 }
