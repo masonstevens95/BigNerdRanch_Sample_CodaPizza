@@ -6,6 +6,4 @@ A simple app from Ch 26-29 of Big Nerd Ranch Android Programming, 5th Edition wh
 
 ## Screen Capture of functionality
 
-(Placeholder)
-
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+https://user-images.githubusercontent.com/36343085/179583385-f24b5dc3-d57d-4687-a55b-d271ed1754c4.mov
