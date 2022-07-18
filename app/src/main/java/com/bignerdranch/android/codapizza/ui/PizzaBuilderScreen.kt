@@ -1,16 +1,18 @@
 package com.bignerdranch.android.codapizza.ui
 
-import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import PizzaHeroImage
+import android.widget.Toast
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -30,33 +32,43 @@ fun PizzaBuilderScreen(
         mutableStateOf(Pizza())
     }
 
+    Scaffold (
+        modifier = modifier,
+        topBar = {
+            TopAppBar (
+                title = {
+                    Text(stringResource(R.string.app_name))
+                }
+            )
+        },
+        content = {
+            Column(modifier = modifier) {
 
+                PizzaSizeDropdownList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true),
+                    pizza = pizza,
+                    onEditPizza = {pizza = it}
+                )
 
-    Column(modifier = modifier) {
+                ToppingsList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true),
+                    pizza = pizza,
+                    onEditPizza = {pizza = it}
+                )
 
-        PizzaSizeDropdownList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true),
-            pizza = pizza,
-            onEditPizza = {pizza = it}
-        )
-
-        ToppingsList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true),
-            pizza = pizza,
-            onEditPizza = {pizza = it}
-        )
-
-        OrderButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            pizza = pizza
-        )
-    }
+                OrderButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    pizza = pizza
+                )
+            }
+        }
+    )
 }
 
 @Composable
@@ -73,12 +85,12 @@ private fun PizzaSizeDropdownList(
     }
 
     //Wrapper for dropdown menu
-    Box(
+    Button(
         modifier = Modifier
             .fillMaxWidth()
-            .size(48.dp)
-            .background(Color.Blue)
-            .clickable(onClick = { showDropdown = !showDropdown }),
+            .size(64.dp)
+            .padding(4.dp),
+        onClick = { showDropdown = !showDropdown }
     ){
 
         //sample text
@@ -141,6 +153,14 @@ private fun ToppingsList (
     }
 
     LazyColumn(modifier = modifier){
+
+        item {
+            PizzaHeroImage(
+                pizza = pizza,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
         items(Topping.values()) { topping ->
             ToppingCell(
                 topping = topping,
@@ -158,9 +178,17 @@ private fun OrderButton(
     modifier: Modifier = Modifier,
     pizza : Pizza
 ){
+    val context = LocalContext.current
     Button(
         modifier = modifier,
-        onClick = { /*TODO*/ }
+        onClick = {
+            Toast.makeText(
+                context,
+                R.string.order_placed_toast,
+                Toast.LENGTH_LONG
+            )
+                .show()
+        }
     ) {
         val currencyFormatter = remember {NumberFormat.getCurrencyInstance()}
         val price = currencyFormatter.format(pizza.price)
