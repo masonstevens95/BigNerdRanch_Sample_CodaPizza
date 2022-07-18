@@ -32,31 +32,43 @@ fun PizzaBuilderScreen(
         mutableStateOf(Pizza())
     }
 
-    Column(modifier = modifier) {
+    Scaffold (
+        modifier = modifier,
+        topBar = {
+            TopAppBar (
+                title = {
+                    Text(stringResource(R.string.app_name))
+                }
+            )
+        },
+        content = {
+            Column(modifier = modifier) {
 
-        PizzaSizeDropdownList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true),
-            pizza = pizza,
-            onEditPizza = {pizza = it}
-        )
+                PizzaSizeDropdownList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true),
+                    pizza = pizza,
+                    onEditPizza = {pizza = it}
+                )
 
-        ToppingsList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true),
-            pizza = pizza,
-            onEditPizza = {pizza = it}
-        )
+                ToppingsList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true),
+                    pizza = pizza,
+                    onEditPizza = {pizza = it}
+                )
 
-        OrderButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            pizza = pizza
-        )
-    }
+                OrderButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    pizza = pizza
+                )
+            }
+        }
+    )
 }
 
 @Composable
