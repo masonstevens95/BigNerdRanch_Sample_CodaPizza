@@ -10,6 +10,7 @@
     <string name="extra_large">Xtra-Large</string>
 
     <string name="place_order_button">Place Order (%1$s)</string>
+    <string name="order_placed_toast">Order submitted!</string>
 
     <string name="placement_prompt">Where do you want %1$s on your pizza?</string>
 
