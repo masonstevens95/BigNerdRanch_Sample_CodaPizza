@@ -3,6 +3,7 @@ package com.bignerdranch.android.codapizza.ui
 import PizzaHeroImage
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -72,12 +73,12 @@ private fun PizzaSizeDropdownList(
     }
 
     //Wrapper for dropdown menu
-    Box(
+    Button(
         modifier = Modifier
             .fillMaxWidth()
-            .size(48.dp)
-            .background(Color.Blue)
-            .clickable(onClick = { showDropdown = !showDropdown }),
+            .size(64.dp)
+            .padding(4.dp),
+        onClick = { showDropdown = !showDropdown }
     ){
 
         //sample text
