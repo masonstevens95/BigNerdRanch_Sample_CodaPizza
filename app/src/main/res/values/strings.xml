@@ -23,4 +23,6 @@
     <string name="topping_peppers">Peppers</string>
     <string name="topping_pepperoni">Pepperoni</string>
     <string name="topping_pineapple">Pineapple</string>
+
+    <string name="pizza_preview">Pizza preview</string>
 </resources>

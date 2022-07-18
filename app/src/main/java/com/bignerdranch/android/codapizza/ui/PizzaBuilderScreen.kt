@@ -1,5 +1,6 @@
 package com.bignerdranch.android.codapizza.ui
 
+import PizzaHeroImage
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,8 +30,6 @@ fun PizzaBuilderScreen(
     var pizza by rememberSaveable {
         mutableStateOf(Pizza())
     }
-
-
 
     Column(modifier = modifier) {
 
@@ -141,6 +140,14 @@ private fun ToppingsList (
     }
 
     LazyColumn(modifier = modifier){
+
+        item {
+            PizzaHeroImage(
+                pizza = pizza,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
         items(Topping.values()) { topping ->
             ToppingCell(
                 topping = topping,
